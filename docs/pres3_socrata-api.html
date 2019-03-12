@@ -136,17 +136,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>Socrata API</h1>
 <p>DataSF.org is built upon <a href="https://dev.socrata.com/" target="_blank">Socrata Open Data</a>.</p>
 <p>The Socrata Open Data API (SODA) allows you to programmatically access a wealth of open data resources from governments, non-profits, and NGOs around the world.</p>
-<p>Every datasets has its own URL or endpoint: For example,</p>
+<p>Every dataset has its own URL or endpoint: For example</p>
+<p>Human-readable URL: (aka Data Page)<br />
+<a href="https://soda.demo.socrata.com/dataset/USGS-Earthquakes-for-2012-11-01-API/4334-bgaj" class="uri">https://soda.demo.socrata.com/dataset/USGS-Earthquakes-for-2012-11-01-API/4334-bgaj</a></p>
+<p>SoDA URL (this is what you use to import into R):<br />
+<a href="http://soda.demo.socrata.com/resource/4334-bgaj.csv" class="uri">http://soda.demo.socrata.com/resource/4334-bgaj.csv</a></p>
 <p><a href="https://data.ct.gov/resource/y6p2-px98.json" class="uri" target="_blank">https://data.ct.gov/resource/y6p2-px98.json</a></p>
 <h2 id="getting-the-api-endpoint-url-for-a-dataset">Getting the API Endpoint (URL) for a Dataset</h2>
 <p><img src="images/sodi_api_url_762x428.png" style="height:300;"></p>
-<h2 id="two-types-of-api-endpoint">Two types of API Endpoint</h2>
-<p>Human-readable URL:<br />
-<a href="https://soda.demo.socrata.com/dataset/USGS-Earthquakes-for-2012-11-01-API/4334-bgaj" class="uri">https://soda.demo.socrata.com/dataset/USGS-Earthquakes-for-2012-11-01-API/4334-bgaj</a></p>
-<p>SoDA URL:<br />
-<a href="http://soda.demo.socrata.com/resource/4334-bgaj.csv" class="uri">http://soda.demo.socrata.com/resource/4334-bgaj.csv</a></p>
-<h2 id="import-into-r">Import into R</h2>
-<p>Take note of the extension (csv, json. geojson, etc.). The RSocrata package has functions to import data from a SODA API endpoint.</p>
+<h2 id="importing-data-into-r">Importing Data into R</h2>
+<p>Take note of the extension (csv, json. geojson, etc.). The <code>RSocrata</code> package has functions to import data from a SODA API endpoint.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(RSocrata)
 df &lt;-<span class="st"> </span><span class="kw">read.socrata</span>(<span class="st">&quot;http://soda.demo.socrata.com/resource/4334-bgaj.csv&quot;</span>)
 <span class="kw">head</span>(df)</code></pre></div>
@@ -167,7 +166,9 @@ df &lt;-<span class="st"> </span><span class="kw">read.socrata</span>(<span clas
 <p><strong>json</strong> is another file format. It is very flexible but often is used to save a two-dimensional table. Let's load the <a href="https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am" target="_blank">movie locations dataset</a> from SFData.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movie_loc_url &lt;-<span class="st"> &quot;https://data.sfgov.org/resource/wwmu-gmzc.json&quot;</span>
 movie_loc_df &lt;-<span class="st"> </span><span class="kw">read.socrata</span>(movie_loc_url, <span class="dt">app_token=</span><span class="st">&quot;blM04kZ1D6AL2jNbK8o7VWiEj&quot;</span>)
-<span class="kw">head</span>(movie_loc_df)</code></pre></div>
+<span class="kw">nrow</span>(movie_loc_df)</code></pre></div>
+<pre><code>## [1] 1622</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(movie_loc_df)</code></pre></div>
 <pre><code>##    actor_1      actor_2     actor_3 director
 ## 1 Siddarth Nithya Menon Priya Anand Jayendra
 ## 2 Siddarth Nithya Menon Priya Anand Jayendra
@@ -197,22 +198,31 @@ movie_loc_df &lt;-<span class="st"> </span><span class="kw">read.socrata</span>(
 ## 5      &lt;NA&gt;
 ## 6      &lt;NA&gt;</code></pre>
 <p>Note two things:</p>
+<div class="indented2">
 <ul>
 <li>the URL is saved as a variable, and the variable is passed to the function</li>
 <li>a token is used</li>
 </ul>
-<p>API Tokens</p>
+</div>
+<h2 id="api-tokens">API Tokens</h2>
 <p>Many API use tokens or keys to regulate usage or require a subscription. A token is a little bit like a password.</p>
 <p>SFData.org does not require tokens, but you can get throttled if too many people use it at once. Create a token at the <a href="http://datasf.org/opendata/developers" target="_blank">Developer Portal</a>. For today we can use the one above.</p>
-<p>Importing polygon boundaries</p>
+<h2 id="importing-polygon-data">Importing polygon data</h2>
 <p><a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h" target="_blank">Neighborhood boundaries</a> can be imported as well. Look the SODA rest point:</p>
 <p><a href="https://data.sfgov.org/resource/xfcw-9evu.json" class="uri">https://data.sfgov.org/resource/xfcw-9evu.json</a></p>
-<p>RSocrata does not currently know how to import a polygon layer. But you can get the geojson version of the data using the <code>sf</code> package.</p>
+<p>RSocrata does not currently know how to import a polygon layer. But you can get the geojson version of the data by manually change the extension and using the <code>sf</code> package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)</code></pre></div>
 <pre><code>## Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nb_bnd =<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;https://data.sfgov.org/resource/xfcw-9evu.geojson&quot;</span>)
 <span class="kw">plot</span>(nb_bnd)</code></pre></div>
 <p><img src="pres3_socrata-api_files/figure-slidy/load_nb-1.png" width="768" /></p>
+<h2 id="importing-large-tables">Importing Large Tables</h2>
+<p>The default limit is 1000 rows. You can specify a filter when you import the data by adding an expression at the end the of the URL. For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movie2011_url &lt;-<span class="st"> &quot;https://data.sfgov.org/resource/wwmu-gmzc.json?release_year=2011&quot;</span>
+movie2011_df &lt;-<span class="st"> </span><span class="kw">read.socrata</span>(movie2011_url, <span class="dt">app_token=</span><span class="st">&quot;blM04kZ1D6AL2jNbK8o7VWiEj&quot;</span>)
+<span class="kw">nrow</span>(movie2011_df)</code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<p>For more examples, see the <a href="https://dev.socrata.com/docs/queries/" target="_blank">SoQL Query Language</a>.</p>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

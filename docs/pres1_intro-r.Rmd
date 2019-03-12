@@ -37,7 +37,6 @@ By the end of the workshop be able to:
 - Import data from SF's Open Data portal into R
 - Explore and visualize one and two dimensional data
 - Create simple interactive maps in a browser
--	Perform geoprocessing tasks like buffers and intersections
 -	Use spatial queries to select features
 -	Conduct basic statistical analyses. 
 - Find resources to continue learning on your own

@@ -35,7 +35,13 @@ DataSF.org is built upon [Socrata Open Data](https://dev.socrata.com/){target="_
 
 The Socrata Open Data API (SODA) allows you to programmatically access a wealth of open data resources from governments, non-profits, and NGOs around the world.
 
-Every datasets has its own URL or endpoint: For example,
+Every dataset has its own URL or endpoint: For example
+
+Human-readable URL: (aka Data Page)  
+https://soda.demo.socrata.com/dataset/USGS-Earthquakes-for-2012-11-01-API/4334-bgaj
+
+SoDA URL (this is what you use to import into R):  
+http://soda.demo.socrata.com/resource/4334-bgaj.csv
 
 [https://data.ct.gov/resource/y6p2-px98.json](https://data.ct.gov/resource/y6p2-px98.json){target="_blank"}
 
@@ -43,17 +49,9 @@ Every datasets has its own URL or endpoint: For example,
 
 <img src="images/sodi_api_url_762x428.png" style="height:300;">
 
-## Two types of API Endpoint
+## Importing Data into R
 
-Human-readable URL:  
-https://soda.demo.socrata.com/dataset/USGS-Earthquakes-for-2012-11-01-API/4334-bgaj
-
-SoDA URL:  
-http://soda.demo.socrata.com/resource/4334-bgaj.csv
-
-## Import into R
-
-Take note of the extension (csv, json. geojson, etc.). The RSocrata package has functions to import data from a SODA API endpoint.
+Take note of the extension (csv, json. geojson, etc.). The `RSocrata` package has functions to import data from a SODA API endpoint.
 
 ```{r load_data, cache=TRUE}
 library(RSocrata)
@@ -66,27 +64,30 @@ head(df)
 ```{r load_movies, cache=TRUE}
 movie_loc_url <- "https://data.sfgov.org/resource/wwmu-gmzc.json"
 movie_loc_df <- read.socrata(movie_loc_url, app_token="blM04kZ1D6AL2jNbK8o7VWiEj")
+nrow(movie_loc_df)
 head(movie_loc_df)
 ```
 
 Note two things:
 
+<div class="indented2">
 - the URL is saved as a variable, and the variable is passed to the function
 - a token is used
+</div>
 
-API Tokens
+## API Tokens
 
 Many API use tokens or keys to regulate usage or require a subscription. A token is a little bit like a password.
 
 SFData.org does not require tokens, but you can get throttled if too many people use it at once. Create a token at the [Developer Portal](http://datasf.org/opendata/developers){target="_blank"}. For today we can use the one above.
 
-Importing polygon boundaries
+## Importing polygon data
 
 [Neighborhood boundaries](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h){target="_blank"} can be imported as well. Look the SODA rest point:
 
 https://data.sfgov.org/resource/xfcw-9evu.json
 
-RSocrata does not currently know how to import a polygon layer. But you can get the geojson version of the data using the `sf` package. 
+RSocrata does not currently know how to import a polygon layer. But you can get the geojson version of the data by  manually change the extension and using the `sf` package.
 
 ```{r load_nb, cache=TRUE}
 library(sf)
@@ -94,5 +95,16 @@ nb_bnd = read_sf("https://data.sfgov.org/resource/xfcw-9evu.geojson")
 plot(nb_bnd)
 ```
 
+## Importing Large Tables
+
+The default limit is 1000 rows. You can specify a filter when you import the data by adding an expression at the end the of the URL. For example:
+
+```{r load2011movies, cache=TRUE}
+movie2011_url <- "https://data.sfgov.org/resource/wwmu-gmzc.json?release_year=2011"
+movie2011_df <- read.socrata(movie2011_url, app_token="blM04kZ1D6AL2jNbK8o7VWiEj")
+nrow(movie2011_df)
+```
+
+For more examples, see the [SoQL Query Language](https://dev.socrata.com/docs/queries/){target="_blank"}.
 
 
