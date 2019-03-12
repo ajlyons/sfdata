@@ -1,0 +1,45 @@
+h1 {
+  font-size:30px;
+  font-weight: bold;
+  color: Navy;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+h1.title {
+  font-size:32px;
+}
+
+h2 {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size:140%;
+  font-weight: bold;
+  color: Navy;
+}
+
+p {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size:140%;
+}
+
+span.time {
+  display: inline-block;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  width: 70px;
+}
+
+.indented1 {
+  margin-left:1em;
+}
+.indented2 {
+  margin-left:2em;
+}
+.indented3 {
+  margin-left:3em;
+}
+.indented4 {
+  margin-left:4em;
+}
+
+ul.hand > li {
+  color:red;
+}
