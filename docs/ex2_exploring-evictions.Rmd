@@ -25,10 +25,26 @@ setwd("../../../data") ## Or use the Session menu --> Set Working Directory
 Data page:  
 https://data.sfgov.org/Housing-and-Buildings/Eviction-Notices/5cei-gny5
 
-```{r eval=FALSE}
-evict_df <- read.csv("data/Eviction_Notices.csv")
+```{r}
+evict_df <- read.csv("Eviction_Notices.csv")
 nrow(evict_df)
 ```
 
-Get just the eviction notices for just 
+Get just the eviction notices for just 2014. First add a year column:
+
+```{r}
+evict_df$File.Date <- as.character(evict_df$File.Date)
+evict_df$year <- substr(evict_df$File.Date, nchar(evict_df$File.Date) - 3, nchar(evict_df$File.Date))
+```
+
+Use the year column as a filter.
+
+```{r}
+evict_df_2014 <- evict_df[evict_df$year=="2014",]
+nrow(evict_df_2014)
+```
+
+
+
+
 

@@ -292,9 +292,16 @@ div.tocify {
 <h2>Import the eviction notices dataset</h2>
 <p>Data page:<br />
 <a href="https://data.sfgov.org/Housing-and-Buildings/Eviction-Notices/5cei-gny5" class="uri">https://data.sfgov.org/Housing-and-Buildings/Eviction-Notices/5cei-gny5</a></p>
-<pre class="r"><code>evict_df &lt;- read.csv(&quot;data/Eviction_Notices.csv&quot;)
+<pre class="r"><code>evict_df &lt;- read.csv(&quot;Eviction_Notices.csv&quot;)
 nrow(evict_df)</code></pre>
-<p>Get just the eviction notices for</p>
+<pre><code>## [1] 40085</code></pre>
+<p>Get just the eviction notices for just 2014. First add a year column:</p>
+<pre class="r"><code>evict_df$File.Date &lt;- as.character(evict_df$File.Date)
+evict_df$year &lt;- substr(evict_df$File.Date, nchar(evict_df$File.Date) - 3, nchar(evict_df$File.Date))</code></pre>
+<p>Use the year column as a filter.</p>
+<pre class="r"><code>evict_df_2014 &lt;- evict_df[evict_df$year==&quot;2014&quot;,]
+nrow(evict_df_2014)</code></pre>
+<pre><code>## [1] 1981</code></pre>
 </div>
 
 
