@@ -286,15 +286,15 @@ div.tocify {
 
 <div id="set-the-working-directory-to-the-data-folder" class="section level2">
 <h2>Set the Working Directory to the Data Folder</h2>
-<pre class="r"><code>setwd(&quot;data&quot;)
-getwd()</code></pre>
-<pre><code>## [1] &quot;C:/Workshops/R-Spatial/SFOpenData/sfdata/docs/data&quot;</code></pre>
+<pre class="r"><code>setwd(&quot;../../../data&quot;) ## Or use the Session menu --&gt; Set Working Directory</code></pre>
 </div>
 <div id="import-the-eviction-notices-dataset" class="section level2">
 <h2>Import the eviction notices dataset</h2>
+<p>Data page:<br />
+<a href="https://data.sfgov.org/Housing-and-Buildings/Eviction-Notices/5cei-gny5" class="uri">https://data.sfgov.org/Housing-and-Buildings/Eviction-Notices/5cei-gny5</a></p>
 <pre class="r"><code>evict_df &lt;- read.csv(&quot;data/Eviction_Notices.csv&quot;)
 nrow(evict_df)</code></pre>
-<pre><code>## [1] 40085</code></pre>
+<p>Get just the eviction notices for</p>
 </div>
 
 

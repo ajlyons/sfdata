@@ -74,20 +74,76 @@ plot(big_cities[ , c("long","lat")], asp=1, pch=16  )
 
 # Working with Files and Folders
 
-To import and export data, you have to 
+Before importing or exporting data, you should set the working directory.
 
+```{r eval=FALSE}
+setwd("C:/.../.../data)
+```
+
+Tip: You can also use the Session menu 
 
 # Importing a csv
-
-Whenever you import or export data, 
-
-Setting up 
 
 RStudio has a 'import dataset' tool in the upper right pane. 
 
 ```{r import_evictions}
-
+evict_df = read.csv("Eviction_Notices.csv")
 ```
 
+# Spatial Data
+
+<script language="javascript" type="text/javascript">w3c_slidy.mouse_click_enabled = false;</script>
+
+```{r setup, child = 'slides_setup.Rmd', include=FALSE}
+```
+
+## Physical World &rarr; GIS World
+
+<div class="incremental centerblock" style="margin-bottom:2em;"><img src="images/layers.jpg"></img></div>
+
+<div class="incremental centerblock" style="margin-bottom:2em;"><img src="images/vectors-features-abstract.png"></img></div>
+
+<div class="incremental centerblock" style="margin-bottom:2em;"><img src="images/raster-features-abstract.png"></img></div>
+
+# Representing Geographic Data 
+
+How would you represent each of the following?
+
+<div class="indented2">
+>- city, county, state boundaries
+>- air or ocean temperature
+>- crime locations
+>- buildings
+>- roads
+>- water fountains
+>- elevation
+>- soil type
+>- land use
+</div>
+
+# Projections
+
+<div class="centerblock"><img src="images/projections_550x682.png"></img></div>
+
+# Importing Vector Data: rgdal
+
+<div class="indented1">
+- <tt>rgdal</tt> is a wrapper for the Geospatial Data Abstraction Library (GDAL) library.  
+- It provides drivers for a wide range of vector and raster data formats. [<a id="qtn_vqmbij" href="#" class="showhideplain" onclick="showHide('vqmbij');return false;">See all</a>]  
+
+<div id="vqmbij" class="answer-code">
+```{r}
+rgdal::ogrDrivers()[,c(2,3,4)]
+```
+</div>
+
+- Data come in as Spatial* objects (<tt>sp</tt> package).  
+- Knows how to read project info  
+</div>
+
+```{r echo=TRUE, results='hide', message=FALSE}
+library(sp)
+library(rgdal)
+```
 
 

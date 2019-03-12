@@ -22,8 +22,13 @@ setwd("../../../data") ## Or use the Session menu --> Set Working Directory
 
 ## Import the eviction notices dataset
 
-```{r}
+Data page:  
+https://data.sfgov.org/Housing-and-Buildings/Eviction-Notices/5cei-gny5
+
+```{r eval=FALSE}
 evict_df <- read.csv("data/Eviction_Notices.csv")
 nrow(evict_df)
 ```
+
+Get just the eviction notices for just 
 

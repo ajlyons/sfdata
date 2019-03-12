@@ -189,13 +189,146 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="working-with-files-and-folders" class="slide section level1">
 <h1>Working with Files and Folders</h1>
-<p>To import and export data, you have to</p>
+<p>Before importing or exporting data, you should set the working directory.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;C:/.../.../data)</span></code></pre></div>
+<p>Tip: You can also use the Session menu</p>
 </div>
 <div id="importing-a-csv" class="slide section level1">
 <h1>Importing a csv</h1>
-<p>Whenever you import or export data,</p>
-<p>Setting up</p>
 <p>RStudio has a 'import dataset' tool in the upper right pane.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">evict_df =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;Eviction_Notices.csv&quot;</span>)</code></pre></div>
+</div>
+<div id="spatial-data" class="slide section level1">
+<h1>Spatial Data</h1>
+<script language="javascript" type="text/javascript">w3c_slidy.mouse_click_enabled = false;</script>
+<h2 id="physical-world-gis-world">Physical World → GIS World</h2>
+<div class="incremental centerblock" style="margin-bottom:2em;">
+<img src="images/layers.jpg"></img>
+</div>
+<div class="incremental centerblock" style="margin-bottom:2em;">
+<img src="images/vectors-features-abstract.png"></img>
+</div>
+<div class="incremental centerblock" style="margin-bottom:2em;">
+<img src="images/raster-features-abstract.png"></img>
+</div>
+</div>
+<div id="representing-geographic-data" class="slide section level1">
+<h1>Representing Geographic Data</h1>
+<p>How would you represent each of the following?</p>
+<div class="indented2">
+<ul class="incremental">
+<li>city, county, state boundaries</li>
+<li>air or ocean temperature</li>
+<li>crime locations</li>
+<li>buildings</li>
+<li>roads</li>
+<li>water fountains</li>
+<li>elevation</li>
+<li>soil type</li>
+<li>land use</li>
+</ul>
+</div>
+</div>
+<div id="projections" class="slide section level1">
+<h1>Projections</h1>
+<div class="centerblock">
+<img src="images/projections_550x682.png"></img>
+</div>
+</div>
+<div id="importing-vector-data-rgdal" class="slide section level1">
+<h1>Importing Vector Data: rgdal</h1>
+<div class="indented1">
+<ul>
+<li><tt>rgdal</tt> is a wrapper for the Geospatial Data Abstraction Library (GDAL) library.<br />
+</li>
+<li>It provides drivers for a wide range of vector and raster data formats. [<a id="qtn_vqmbij" href="#" class="showhideplain" onclick="showHide('vqmbij');return false;">See all</a>]</li>
+</ul>
+<div id="vqmbij" class="answer-code">
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rgdal<span class="op">::</span><span class="kw">ogrDrivers</span>()[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)]</code></pre></div>
+<pre><code>##                                                      long_name write  copy
+## 1                                                  Aeronav FAA FALSE FALSE
+## 2                                                   AmigoCloud  TRUE FALSE
+## 3                                            Arc/Info Generate FALSE FALSE
+## 4                                     Arc/Info Binary Coverage FALSE FALSE
+## 5                                Arc/Info E00 (ASCII) Coverage FALSE FALSE
+## 6                                                    Atlas BNA  TRUE FALSE
+## 7                                               AutoCAD Driver FALSE FALSE
+## 8                                                        Carto  TRUE FALSE
+## 9                                           Cloudant / CouchDB  TRUE FALSE
+## 10                                          CouchDB / GeoCouch  TRUE FALSE
+## 11                                Comma Separated Value (.csv)  TRUE FALSE
+## 12                      OGC CSW (Catalog  Service for the Web) FALSE FALSE
+## 13                                            Microstation DGN  TRUE FALSE
+## 14                                                 AutoCAD DXF  TRUE FALSE
+## 15                               French EDIGEO exchange format FALSE FALSE
+## 16                                              Elastic Search  TRUE FALSE
+## 17                                              ESRI Shapefile  TRUE FALSE
+## 18                                                  Geoconcept  TRUE FALSE
+## 19                                                     GeoJSON  TRUE FALSE
+## 20                                               Geomedia .mdb FALSE FALSE
+## 21                                                      GeoRSS  TRUE FALSE
+## 22                                        Google Fusion Tables  TRUE FALSE
+## 23                             Geography Markup Language (GML)  TRUE FALSE
+## 24                                                  GeoPackage  TRUE  TRUE
+## 25                                                    GPSBabel  TRUE FALSE
+## 26                                               GPSTrackMaker  TRUE FALSE
+## 27                                                         GPX  TRUE FALSE
+## 28                                Hydrographic Transfer Vector FALSE FALSE
+## 29                                       HTTP Fetching Wrapper FALSE FALSE
+## 30                                        Idrisi Vector (.vct) FALSE FALSE
+## 31                                                OpenJUMP JML  TRUE FALSE
+## 32                  JPEG-2000 driver based on OpenJPEG library FALSE  TRUE
+## 33 JPEG-2000 part 1 (ISO/IEC 15444-1), based on Jasper library FALSE  TRUE
+## 34                               Keyhole Markup Language (KML)  TRUE FALSE
+## 35                                                MapInfo File  TRUE FALSE
+## 36                                                      Memory  TRUE FALSE
+## 37                       Microsoft SQL Server Spatial Database  TRUE FALSE
+## 38                                                       MySQL  TRUE FALSE
+## 39                                  Network Common Data Format  TRUE  TRUE
+## 40                                                        ODBC  TRUE FALSE
+## 41        Open Document/ LibreOffice / OpenOffice Spreadsheet   TRUE FALSE
+## 42                                    GMT ASCII Vectors (.gmt)  TRUE FALSE
+## 43                                Planetary Data Systems TABLE FALSE FALSE
+## 44                                                        SDTS FALSE FALSE
+## 45                                    VRT - Virtual Datasource FALSE FALSE
+## 46                                                     OpenAir FALSE FALSE
+## 47                                                ESRI FileGDB FALSE FALSE
+## 48                                   OpenStreetMap XML and PBF FALSE FALSE
+## 49                                        PCIDSK Database File  TRUE FALSE
+## 50                                              Geospatial PDF  TRUE  TRUE
+## 51                                         PostgreSQL SQL dump  TRUE FALSE
+## 52                                   ESRI Personal GeoDatabase FALSE FALSE
+## 53                                      Planet Labs Scenes API FALSE FALSE
+## 54                                          PostgreSQL/PostGIS  TRUE FALSE
+## 55                                               EPIInfo .REC  FALSE FALSE
+## 56                                              IHO S-57 (ENC)  TRUE FALSE
+## 57                                        SEG-P1 / UKOOA P1/90 FALSE FALSE
+## 58                                                       SEG-Y FALSE FALSE
+## 59                                                     Selafin  TRUE FALSE
+## 60                                         SQLite / Spatialite  TRUE FALSE
+## 61             Tim Newport-Peace&#39;s Special Use Airspace Format FALSE FALSE
+## 62                                    Scalable Vector Graphics FALSE FALSE
+## 63                                 Storage and eXchange Format FALSE FALSE
+## 64                                      U.S. Census TIGER/Line  TRUE FALSE
+## 65                                                     UK .NTF FALSE FALSE
+## 66                         VDV-451/VDV-452/INTREST Data Format  TRUE FALSE
+## 67                        Czech Cadastral Exchange Data Format FALSE FALSE
+## 68                                                        Walk FALSE FALSE
+## 69                                            WAsP .map format  TRUE FALSE
+## 70                               OGC WFS (Web Feature Service) FALSE FALSE
+## 71                                             MS Excel format FALSE FALSE
+## 72                              MS Office Open XML spreadsheet  TRUE FALSE
+## 73                        X-Plane/Flightgear aeronautical data FALSE FALSE</code></pre>
+</div>
+<ul>
+<li>Data come in as Spatial* objects (<tt>sp</tt> package).<br />
+</li>
+<li>Knows how to read project info<br />
+</li>
+</ul>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sp)
+<span class="kw">library</span>(rgdal)</code></pre></div>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->
