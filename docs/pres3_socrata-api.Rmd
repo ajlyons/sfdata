@@ -17,6 +17,8 @@ output:
 
 # API
 
+<script language="javascript" type="text/javascript">w3c_slidy.mouse_click_enabled = false;</script>
+
 API stands for _Application Programming Interface_.
 
 It is both a translator and a messenger between two different programs.

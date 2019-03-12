@@ -22,11 +22,13 @@ output:
 
 <span class="time">10:15a.</span> [Working with 2D and Spatial Data](pres2_2d-spatial-data.html){target="_blank"}
 
-<span class="time">10:45a.</span> Practice #2. [Importing and Visualizing 2D and Spatial Data](pres2_2d-spatial-data.html){target="_blank"}
+<span class="time">10:45a.</span> Practice #2. [Importing and Visualizing 2D and Spatial Data](ex2_exploring-evictions.html){target="_blank"}
 
 <span class="time">11:30a.</span> [Using the SF Data API](pres3_socrata-api.html){target="_blank"}
 
-<span class="time">12:00p.</span> Practice #3. [Exploring the Evictions](#){target="_blank"}
+<!--
+<span class="time">12:00p.</span> Practice #3. Exploring the Evictions](#){target="_blank"}
+-->
 
 <span class="time">12:30p.</span> [Showcase of advanced features](pres4_showcase.html){target="_blank"}
 

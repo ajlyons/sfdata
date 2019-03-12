@@ -1,0 +1,29 @@
+---
+title: "Practice #1: Exploring R and RStudio"
+date: Spatial Data Analysis and Visualization with R
+output: 
+  html_document: 
+    css: css/plain_html.css
+    includes:
+      in_header: header.html
+    lib_dir: lib
+    self_contained: no
+    smart: no
+    theme: lumen
+    toc: yes
+    toc_float: yes
+---
+
+## Set the Working Directory to the Data Folder
+
+```{r eval=FALSE}
+setwd("../../../data") ## Or use the Session menu --> Set Working Directory
+```
+
+## Import the eviction notices dataset
+
+```{r}
+evict_df <- read.csv("data/Eviction_Notices.csv")
+nrow(evict_df)
+```
+
