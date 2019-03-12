@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="copyright" content="Data Analysis and Visualization with R | <a href='https://ajlyons.github.io/sfdata/'>https://ajlyons.github.io/sfdata/</a>"/>
+  <meta name="font-size-adjustment" content="2"/>
+  <title>Using the SF Data API</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACkUlEQVQ4jX2SW0jTcRTHTzNyeZlh6lqmm3POdNPC6SxSEzaqafkykOFoIxTDWpKRFV6iQMNLFyMSsQvUW0WORc2WWBmGKEGZXUyz0NrmNmfa1PYgfHsQ1v5oHjgvX875/M45vy/R8mDJ9caxrFIL5CUWJB00Q9n+7Q+l1BetUMuMTL3JpTB0QVnejd1Hu9DQ60G5eQbqB7PIvj0L2bUZ0KZzghWbs0o7Fx3Tc/B6vStm6+g0wrQvIKh2gKKyUxnNSZoO685SC1YDeL1e9Ll+Ia7WCd5pJ4hojQ8g1nViezETYBqZx93BOdwa9jAgsdUT4J6ZQqC6f4GIiLYU9/RzNWYIdU9hd/8rLjN7UGT8DbWROVVMlQsBBWas142DiIikdfbFMF0POIVm2NzM1zwLS+mvcSsnEajpBSv/8RIgucGJ1EYXEs+NwjrlWfUGMee/Y2PFJIJLrFibex8kOsahhCYnUlpnIL1kh9X9/yMKG2yIOOlAsPYnAveZsE75EEQUQLwTwy5Rsxvx9UxApKEPEYY+BiSizA623oaggkdgq4xLKwRLq7i8sy6EFlpg8wNEVwyAd3wAbZ8cPu3CazeCC/sRojYjaL8Jvm8MPWLDBm03A8CveQ9+7RBia4cYU4QfeokwzTOwc6/4OzKXHap/C5ufD0RNo0i4OAZR81dcnnD69Mp3PxBe9GRkuZdFKk7sqTcQ132EpGUMydetSLnpgOSGHVtbxpHU9AX8mkFEG55/ZrjQL1h82V6esPLVh8Sr40i940J6xzzS7s1C0m6HqHEEiTnatgT5gcPijHxltFwhjpRIQpZjBAJ2lFTBFW5TiOPT8mXx6apdcRl5OaJM1Q6hLC9ls3RPTLgok0NELCKiv02kPqt/O1MZAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
+  <script language="javascript" type="text/javascript">
+  function TriShowHide(shID) {
+    shIDspan = shID + "span";
+    shIDdiv = shID + "div";
+    if (document.getElementById(shIDdiv).style.display != 'block') {
+      document.getElementById(shIDdiv).style.display = 'block';
+      txtSpan = "&#9660;";
+    } else {
+      document.getElementById(shIDdiv).style.display = 'none';
+      txtSpan = "&#9654;";
+    }
+    document.getElementById(shIDspan).innerHTML = txtSpan + " ";
+  }
+  function showHide(shID) {
+    if (shID=="soln-show-all") {
+      var allAnswerCode = document.getElementsByClassName("answer-code");
+      for (i = 0; i < allAnswerCode.length; i++) {
+          allAnswerCode[i].style.display = 'block';
+      }
+    } else if (shID=="soln-hide-all") {
+      var allAnswerCode = document.getElementsByClassName("answer-code");
+      for (i = 0; i < allAnswerCode.length; i++) {
+          allAnswerCode[i].style.display = 'none';
+      }
+    } else if (shID=="hints-show-all") {
+      var allAnswerCode = document.getElementsByClassName("hint");
+      for (i = 0; i < allAnswerCode.length; i++) {
+          allAnswerCode[i].style.display = 'block';
+      }
+    } else if (shID=="hints-hide-all") {
+      var allAnswerCode = document.getElementsByClassName("hint");
+      for (i = 0; i < allAnswerCode.length; i++) {
+          allAnswerCode[i].style.display = 'none';
+      }
+    } else {
+      if (document.getElementById(shID)) {
+        if (document.getElementById(shID).style.display != 'block') {
+          document.getElementById(shID).style.display = 'block';
+        } else {
+          document.getElementById(shID).style.display = 'none';
+        }
+      }
+    }
+  }
+  function CopyToClipboard(containerid) {
+  if (document.selection) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(document.getElementById(containerid));
+      range.select().createTextRange();
+      document.execCommand("copy");
+  } else if (window.getSelection) {
+      var range = document.createRange();
+      range.selectNode(document.getElementById(containerid));
+      window.getSelection().addRange(range);
+      document.execCommand("copy");
+      // alert("text copied")
+  }}
+  </script>
+  <link href="lib/slidy-2/styles/slidy.css" rel="stylesheet" />
+  <script src="lib/slidy-2/scripts/slidy.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+   href="css\slidy_styles.css" />
+  <meta name="duration" content="0" />
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Using the SF Data API</h1>
+  <p class="author">
+
+  </p>
+</div>
+<div id="api" class="slide section level1">
+<h1>API</h1>
+<p>API stands for <em>Application Programming Interface</em>.</p>
+<p>It is both a translator and a messenger between two different programs.</p>
+<p>Common Uses of APIs</p>
+<div class="indented2">
+<ul>
+<li>call libraries written in C from R</li>
+<li>request data and have it returned in a known format</li>
+<li>access 'big' database and/or computing power (e.g., geocoding)</li>
+</ul>
+</div>
+</div>
+<div id="socrata-api" class="slide section level1">
+<h1>Socrata API</h1>
+<p>DataSF.org is built upon <a href="https://dev.socrata.com/" target="_blank">Socrata Open Data</a>.</p>
+<p>The Socrata Open Data API (SODA) allows you to programmatically access a wealth of open data resources from governments, non-profits, and NGOs around the world.</p>
+<p>Every datasets has its own URL or endpoint: For example,</p>
+<p><a href="https://data.ct.gov/resource/y6p2-px98.json" class="uri" target="_blank">https://data.ct.gov/resource/y6p2-px98.json</a></p>
+<h2 id="getting-the-api-endpoint-url-for-a-dataset">Getting the API Endpoint (URL) for a Dataset</h2>
+<p><img src="images/sodi_api_url_762x428.png" style="height:300;"></p>
+<h2 id="two-types-of-api-endpoint">Two types of API Endpoint</h2>
+<p>Human-readable URL:<br />
+<a href="https://soda.demo.socrata.com/dataset/USGS-Earthquakes-for-2012-11-01-API/4334-bgaj" class="uri">https://soda.demo.socrata.com/dataset/USGS-Earthquakes-for-2012-11-01-API/4334-bgaj</a></p>
+<p>SoDA URL:<br />
+<a href="http://soda.demo.socrata.com/resource/4334-bgaj.csv" class="uri">http://soda.demo.socrata.com/resource/4334-bgaj.csv</a></p>
+<h2 id="import-into-r">Import into R</h2>
+<p>Take note of the extension (csv, json. geojson, etc.). The RSocrata package has functions to import data from a SODA API endpoint.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(RSocrata)
+df &lt;-<span class="st"> </span><span class="kw">read.socrata</span>(<span class="st">&quot;http://soda.demo.socrata.com/resource/4334-bgaj.csv&quot;</span>)
+<span class="kw">head</span>(df)</code></pre></div>
+<pre><code>##   Source Earthquake.ID Version            Datetime Magnitude Depth
+## 1     nn      00388610       9 2012-09-14 22:38:01       2.7   7.6
+## 2     ci      15215753       0 2012-09-14 22:14:45       1.5  10.6
+## 3     nc      71842370       0 2012-09-14 22:14:21       1.4   0.0
+## 4     nn      00388609       9 2012-09-14 22:10:19       1.5   8.2
+## 5     nn      00388607       9 2012-09-14 22:06:11       1.7   6.4
+## 6     pr      12258012       0 2012-09-14 21:28:55       3.1  20.0
+##   Number.of.Stations                      Region             Location
+## 1                 15                      Nevada (41.1085, -117.6135)
+## 2                 35         Southern California  (34.525, -118.1527)
+## 3                 21         Northern California (38.8023, -122.7685)
+## 4                 29          Central California (36.9447, -117.6778)
+## 5                 29          Central California (36.9417, -117.6903)
+## 6                  6 north of the Virgin Islands  (19.7859, -64.0849)</code></pre>
+<p><strong>json</strong> is another file format. It is very flexible but often is used to save a two-dimensional table. Let's load the <a href="https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am" target="_blank">movie locations dataset</a> from SFData.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">movie_loc_url &lt;-<span class="st"> &quot;https://data.sfgov.org/resource/wwmu-gmzc.json&quot;</span>
+movie_loc_df &lt;-<span class="st"> </span><span class="kw">read.socrata</span>(movie_loc_url, <span class="dt">app_token=</span><span class="st">&quot;blM04kZ1D6AL2jNbK8o7VWiEj&quot;</span>)
+<span class="kw">head</span>(movie_loc_df)</code></pre></div>
+<pre><code>##    actor_1      actor_2     actor_3 director
+## 1 Siddarth Nithya Menon Priya Anand Jayendra
+## 2 Siddarth Nithya Menon Priya Anand Jayendra
+## 3 Siddarth Nithya Menon Priya Anand Jayendra
+## 4 Siddarth Nithya Menon Priya Anand Jayendra
+## 5 Siddarth Nithya Menon Priya Anand Jayendra
+## 6 Siddarth Nithya Menon Priya Anand Jayendra
+##                               locations production_company release_year
+## 1     Epic Roasthouse (399 Embarcadero)        SPI Cinemas         2011
+## 2 Mason &amp; California Streets (Nob Hill)        SPI Cinemas         2011
+## 3                   Justin Herman Plaza        SPI Cinemas         2011
+## 4               200 block Market Street        SPI Cinemas         2011
+## 5                             City Hall        SPI Cinemas         2011
+## 6                 Polk &amp; Larkin Streets        SPI Cinemas         2011
+##   title                                            writer distributor
+## 1   180 Umarji Anuradha, Jayendra, Aarthi Sriram, &amp; Suba         &lt;NA&gt;
+## 2   180 Umarji Anuradha, Jayendra, Aarthi Sriram, &amp; Suba         &lt;NA&gt;
+## 3   180 Umarji Anuradha, Jayendra, Aarthi Sriram, &amp; Suba         &lt;NA&gt;
+## 4   180 Umarji Anuradha, Jayendra, Aarthi Sriram, &amp; Suba         &lt;NA&gt;
+## 5   180 Umarji Anuradha, Jayendra, Aarthi Sriram, &amp; Suba         &lt;NA&gt;
+## 6   180 Umarji Anuradha, Jayendra, Aarthi Sriram, &amp; Suba         &lt;NA&gt;
+##   fun_facts
+## 1      &lt;NA&gt;
+## 2      &lt;NA&gt;
+## 3      &lt;NA&gt;
+## 4      &lt;NA&gt;
+## 5      &lt;NA&gt;
+## 6      &lt;NA&gt;</code></pre>
+<p>Note two things:</p>
+<ul>
+<li>the URL is saved as a variable, and the variable is passed to the function</li>
+<li>a token is used</li>
+</ul>
+<p>API Tokens</p>
+<p>Many API use tokens or keys to regulate usage or require a subscription. A token is a little bit like a password.</p>
+<p>SFData.org does not require tokens, but you can get throttled if too many people use it at once. Create a token at the <a href="http://datasf.org/opendata/developers" target="_blank">Developer Portal</a>. For today we can use the one above.</p>
+<p>Importing polygon boundaries</p>
+<p><a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h" target="_blank">Neighborhood boundaries</a> can be imported as well. Look the SODA rest point:</p>
+<p><a href="https://data.sfgov.org/resource/xfcw-9evu.json" class="uri">https://data.sfgov.org/resource/xfcw-9evu.json</a></p>
+<p>RSocrata does not currently know how to import a polygon layer. But you can get the geojson version of the data using the <code>sf</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)</code></pre></div>
+<pre><code>## Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nb_bnd =<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;https://data.sfgov.org/resource/xfcw-9evu.geojson&quot;</span>)
+<span class="kw">plot</span>(nb_bnd)</code></pre></div>
+<p><img src="pres3_socrata-api_files/figure-slidy/load_nb-1.png" width="768" /></p>
+</div>
+
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+</body>
+</html>

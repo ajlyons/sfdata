@@ -1,6 +1,6 @@
 ---
 title: <span class='ex-title'>Spatial Data Analysis and Visualization with R</span>
-date: March 12, 2019
+date: "How to get more out of San Francisco's Open Data Portal<br/><br/>Andy Lyons<br/>March 12, 2019<br/><br/><p style='font-style:normal;'>Slides and exercises at:<br/><span style=\"font-family:\'Courier New\', Courier, monospace; color:black;\">https://ajlyons.github.io/sfdata/</font></p>"
 output: 
   html_document: 
     css: css/plain_html.css
@@ -14,21 +14,21 @@ output:
 
 # Outline
 
-<span class="time">9:00a.</span>[Introduction to R](01_intro-r.html){target="_blank"}
+<span class="time">9:00a.</span>[Introduction to R](pres1_intro-r.html){target="_blank"}
 
-<span class="time">9:30a.</span> Practice #1. [Getting Your Feet Wet with R and R Studio](02_ex-getting-started.html){target="_blank"}
+<span class="time">9:30a.</span> Practice #1. [Getting Your Feet Wet with R and R Studio](ex1_getting-started.html){target="_blank"}
 
 <span class="time">10:00a.</span> Break
 
-<span class="time">10:15a.</span> [Extending R](#){target="_blank"}
+<span class="time">10:15a.</span> [Working with 2D and Spatial Data](pres2_2d-spatial-data.html){target="_blank"}
 
-<span class="time">10:45a.</span> Practice #2. [Working with 2D data](#){target="_blank"}
+<span class="time">10:45a.</span> Practice #2. [Importing and Visualizing 2D and Spatial Data](pres2_2d-spatial-data.html){target="_blank"}
 
-<span class="time">11:30a.</span> [Using the Socrata Open Data (SoDA) API](#){target="_blank"}
+<span class="time">11:30a.</span> [Using the SF Data API](pres3_socrata-api.html){target="_blank"}
 
 <span class="time">12:00p.</span> Practice #3. [Exploring the Evictions](#){target="_blank"}
 
-<span class="time">12:30p.</span> [Demo of advanced features and where to turn next](#){target="_blank"}
+<span class="time">12:30p.</span> [Showcase of advanced features](pres4_showcase.html){target="_blank"}
 
 # Resources
 

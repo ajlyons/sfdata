@@ -1,0 +1,175 @@
+---
+title: Getting Started with R
+output: 
+  slidy_presentation:
+    css: css/slidy_styles.css
+    df_print: default
+    duration: 0
+    font_adjustment: 2
+    footer: "Data Analysis and Visualization with R | <a href='https://ajlyons.github.io/sfdata/'>https://ajlyons.github.io/sfdata/</a>"
+    self_contained: no
+    lib_dir: lib
+    smart: no
+    includes:
+      in_header: header.html
+    increment: no
+---
+
+# Intros
+
+<script language="javascript" type="text/javascript">w3c_slidy.mouse_click_enabled = false;</script>
+
+```{r setup, child = 'slides_setup.Rmd', include=FALSE}
+```
+
+<div class="indented1">
+ - Name
+ - Department
+ - What you hope to get out of the workshop
+</div>
+
+# Learning Goals
+
+By the end of the workshop be able to:
+
+<div class="indented1">
+- Work with R and RStudio
+- Import data from SF's Open Data portal into R
+- Explore and visualize one and two dimensional data
+- Create simple interactive maps in a browser
+-	Perform geoprocessing tasks like buffers and intersections
+-	Use spatial queries to select features
+-	Conduct basic statistical analyses. 
+- Find resources to continue learning on your own
+ </div>
+
+<div style="text-align: center;" class="incremental">
+<img src="images/mountain_climbing_880x360.png"><br/>
+<span style="color:darkred;">Wind up a little higher on the learning curve!</span>
+</div>
+
+# Workshop Materials
+
+<div class="indented2">
+https://ajlyons.github.io/sfdata/
+
+Keyboard shortcuts for slides:
+<div class="indented2">
+A: toggle display of current vs all slides  
+S: make fonts smaller  
+B: make fonts larger  
+F: toggle display of the footer  
+C: Show table of contents
+</div>
+</div>
+
+# R 
+
+![](images/rlogo_120x120.png)
+
+- a **software platform** for data manipulation and analysis 
+- a computational **programming language**
+- based on **S**
+- first came out in **1995**
+- administered by the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/){target="_blank"}
+
+# RStudio
+
+![](images/rstudio_378x127.png){style="height:120px;"}
+
+- a popular integrated development environment for R
+- simplifies a lot of nuts-and-bolts
+
+<div class="indented2">
+- write code
+- navigate the files on our computer
+- inspect variables 
+ -visualize the plots
+- view help pages
+- develop packages
+- version control
+</div> 
+
+- extends the capabilities of R through HTML5 / CSS / JavaScript / LaTEK
+
+<div class="indented2">
+   + R Markdown
+   + Shiny apps
+</div>
+
+- publish to various platforms ([RPubs](https://rpubs.com/){target="_blank"}, [Bookdown](https://bookdown.org/){target="_blank"}, [ShinyApps.io](https://www.shinyapps.io/){target="_blank"} )
+
+# Why people like R & RStudio
+
+- open source
+- don't have to point-and-click
+- reproducible analysis
+- packages!
+
+# Packages (Extensions)
+
+- Extend the capabilities of R  
+- Anyone can make a package
+- There are lot!
+
+![](images/packages_inventory_927x92.png)  
+source: https://rdrr.io/
+
+## Finding Packages
+
+https://cran.r-project.org/web/views/
+
+### Example: Packages for Working with Spatial Data
+
+<div class="centerblock"><img src="images/rspatial_ecosystem_v3_790x480.png"></img></div>
+
+# R vs. GIS
+
+<div class="colleft"><div style="margin-left:1em;">
+<img src="images/rlogo_120x120.png">
+<div class="incremental">
+<ul>
+<li>reproducible analysis</li>
+<li>batch runs</li>
+<li>integration with other analyses</li>
+<li>development of new methods</li>
+<li>no money for commercial software</li>
+</ul>
+</div>
+</div></div>
+
+<div class="colright"><div style="margin-left:1em;">
+<img src="images/esri_logo_120x120.png"> <img src="images/qgis_logo_120x120.png">
+<div class="incremental">
+<ul>
+<li>one-off maps</li>
+<li>no mapping experience</li>
+<li>serious cartography</li>
+<li>your data live in a network geodatabase</li>
+</ul>
+</div>
+</div></div>
+
+<div class="colclear"></div>
+
+# R Learning Strategy
+
+<div style="text-align:center; width:80%;">
+understand key concepts & terms  
+&#43;  
+code examples / recipes  
+&#43;  
+lots of practice  
+&#43;  
+<u>a good search engine</u>  
+<br/>
+*functional proficiency*
+</div>
+
+# Next-up
+
+[Exercise 1: Getting Started with R & RStudio](ex1_getting-started.html){target="_blank"}
+
+![](images/r-studio_1000x590.png)
+
+

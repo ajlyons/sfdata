@@ -6,9 +6,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="copyright" content="Data Analysis and Visualization with R"/>
+  <meta name="copyright" content="Data Analysis and Visualization with R | <a href='https://ajlyons.github.io/sfdata/'>https://ajlyons.github.io/sfdata/</a>"/>
   <meta name="font-size-adjustment" content="2"/>
-  <title>Intro to R</title>
+  <title>Working with 2D and Spatial Data</title>
   <style type="text/css">code{white-space: pre;}</style>
   <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACkUlEQVQ4jX2SW0jTcRTHTzNyeZlh6lqmm3POdNPC6SxSEzaqafkykOFoIxTDWpKRFV6iQMNLFyMSsQvUW0WORc2WWBmGKEGZXUyz0NrmNmfa1PYgfHsQ1v5oHjgvX875/M45vy/R8mDJ9caxrFIL5CUWJB00Q9n+7Q+l1BetUMuMTL3JpTB0QVnejd1Hu9DQ60G5eQbqB7PIvj0L2bUZ0KZzghWbs0o7Fx3Tc/B6vStm6+g0wrQvIKh2gKKyUxnNSZoO685SC1YDeL1e9Ll+Ia7WCd5pJ4hojQ8g1nViezETYBqZx93BOdwa9jAgsdUT4J6ZQqC6f4GIiLYU9/RzNWYIdU9hd/8rLjN7UGT8DbWROVVMlQsBBWas142DiIikdfbFMF0POIVm2NzM1zwLS+mvcSsnEajpBSv/8RIgucGJ1EYXEs+NwjrlWfUGMee/Y2PFJIJLrFibex8kOsahhCYnUlpnIL1kh9X9/yMKG2yIOOlAsPYnAveZsE75EEQUQLwTwy5Rsxvx9UxApKEPEYY+BiSizA623oaggkdgq4xLKwRLq7i8sy6EFlpg8wNEVwyAd3wAbZ8cPu3CazeCC/sRojYjaL8Jvm8MPWLDBm03A8CveQ9+7RBia4cYU4QfeokwzTOwc6/4OzKXHap/C5ufD0RNo0i4OAZR81dcnnD69Mp3PxBe9GRkuZdFKk7sqTcQ132EpGUMydetSLnpgOSGHVtbxpHU9AX8mkFEG55/ZrjQL1h82V6esPLVh8Sr40i940J6xzzS7s1C0m6HqHEEiTnatgT5gcPijHxltFwhjpRIQpZjBAJ2lFTBFW5TiOPT8mXx6apdcRl5OaJM1Q6hLC9ls3RPTLgok0NELCKiv02kPqt/O1MZAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon" />
   <script language="javascript" type="text/javascript">
@@ -77,99 +77,12 @@
 </head>
 <body>
 <div class="slide titlepage">
-  <h1 class="title">Intro to R</h1>
+  <h1 class="title">Working with 2D and Spatial Data</h1>
   <p class="author">
 
   </p>
 </div>
-<div id="intros" class="slide section level1">
-<h1>Intros</h1>
-<script language="javascript" type="text/javascript">w3c_slidy.mouse_click_enabled = false;</script>
-<div class="indented1">
-<ul>
-<li>Name</li>
-<li>Department</li>
-<li>What you hope to get out of the class</li>
-</ul>
-</div>
-</div>
-<div id="goals" class="slide section level1">
-<h1>Goals</h1>
-<p>Learn how to</p>
-<div class="indented1">
-<ul>
-<li>Work with R and RStudio</li>
-<li>Importing data from SF's Open Data portal into R</li>
-<li>Exploring and visualizing one and two dimensional data</li>
-<li>Create simple interactive maps in a browser</li>
-<li>Perform geoprocessing tasks like buffers and intersections</li>
-<li>Use spatial queries to select features</li>
-<li>Conduct basic statistical analyses.</li>
-<li>Finding resources to continue learning on your own</li>
-</ul>
-</div>
-<div class="incremental" style="text-align: center;">
-<p><img src="images/mountain_climbing_880x360.png"><br/> <span style="color:darkred;">Wind up a little higher on the learning curve!</span></p>
-</div>
-</div>
-<div id="workshop-materials" class="slide section level1">
-<h1>Workshop Materials</h1>
-<div class="indented2">
-Keyboard shortcuts for slides:
-<div class="indented2">
-<p>A: toggle display of current vs all slides<br />
-S: make fonts smaller<br />
-B: make fonts larger<br />
-F: toggle display of the footer<br />
-C: Show table of contents</p>
-</div>
-</div>
-</div>
-<div id="exercises" class="slide section level1">
-<h1>Exercises</h1>
-<p>Data for exercises</p>
-<pre>
-R_Studio\
-  |+ Department_of_Building_Inspection_Complaints__All_Divisions.csv
-  |+ Eviction_Notices.csv
-  |+ Housing_Inventories_2005_to_2017.csv
-</pre>
-<div class="indented1">
-<ul>
-<li>basic → more advanced</li>
-<li>practice learning on your own</li>
-<li>completion not really important</li>
-<li>answers available</li>
-</ul>
-</div>
-</div>
-<div id="r-and-rstudio" class="slide section level1">
-<h1>R and RStudio</h1>
-<div class="figure">
-<img src="images/rlogo_120x120.png" />
-
-</div>
-<p>R is:</p>
-<ul>
-<li>a software platform for data maniuplation and analysis</li>
-<li>a computational <strong>programming language</strong></li>
-<li>based on S</li>
-<li>first came out in 1995</li>
-</ul>
-<div class="incremental" style="text-align: center;">
-<p><img src="images/r-studiio_1000x590.png"></p>
-</div>
-<div class="indented1">
-<ul>
-<li>what the different windows are for</li>
-<li>how to change font size and colors</li>
-<li>running commands from the script window</li>
-<li>packages tab</li>
-<li>help menu, package help<br />
-</li>
-</ul>
-</div>
-</div>
+<div id="two-dimensional-data" class="titleslide slide section level1"><h1>Two-dimensional data</h1></div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->
   <script>

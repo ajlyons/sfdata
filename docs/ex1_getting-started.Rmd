@@ -1,0 +1,166 @@
+---
+title: "Practice #1: Exploring R and RStudio"
+date: Spatial Data Analysis and Visualization with R
+output: 
+  html_document: 
+    css: css/plain_html.css
+    includes:
+      in_header: header.html
+    lib_dir: lib
+    self_contained: no
+    smart: no
+    theme: lumen
+    toc: yes
+    toc_float: yes
+---
+
+## Open R Studio
+
+<div class="indented1">
+- explore the different windows
+- how to change font size and colors
+- running commands from the script window
+- packages tab
+- help menu, package help  
+</div>
+
+## Use R as a calculator
+
+```{r echo=TRUE, eval=FALSE}
+2 + 3
+56 / 5
+2 ^ 3
+(4 + 5) * 7
+sin(pi / 2)
+```
+
+<div class="indented1">
+&#9758; When it comes to math expressions, R works a lot like Excel  
+&#9758; R generally ignores white space  
+</div>
+
+## Save results to variables
+
+```{r echo=TRUE, eval=FALSE}
+x = 3 + 4
+x
+shoe_size = 9.5
+shoe_size
+Shoe_Size
+```
+
+<div class="indented1">
+&#9758; Variable names can be long  
+&#9758; Avoid using special characters in a variable name  
+
+<div style="margin-left:2em;">
+- numbers ok, but not at the beginning. `data1` works. `1data` doesn't.
+- use underscores instead of dashes
+</div>
+
+&#9758; Variable names are case sensitive
+</div>
+
+## Use functions
+
+```{r eval=FALSE}
+sqrt(125)
+round(x=3.14159, digits=2)
+runif()
+runif(n=10)
+y= seq(from=20, to=40, by=2)
+y
+palette()
+```
+
+<div class="indented1">
+&#9758; **All** functions require parentheses ()  
+&#9758; Some functions require you to put arguments in the parentheses, some don't  
+&#9758; Multiple arguments have to be separated by commas  
+&#9758; R functions can return more than one element  
+&#9758; R variables can store more than one element (aka *vector*)  
+&#9758; Use the up & down arrow keys to bring back your history  
+</div>
+
+## Getting Help 
+
+```{r eval=FALSE}
+?round
+help(seq)
+help(package="stats")
+browseVignettes("raster")
+```
+
+<div class="indented1">
+&#9758; **All** functions have a help page  
+&#9758; Many packages have a help page  
+&#9758; Many packages have tutorials or workflow examples in Vignettes   
+</div>
+
+## Install Packages
+
+Install the `leaflet` package
+
+<div class="indented1">
+&#9758; you can install packages in RStudio using the *Packages* tab
+&#9758; you have to install (download) packages before you can use them  
+</div>
+
+## Use the Script Window
+
+Copy-paste the following into a new script.
+
+```{r eval=F}
+# Happy Saint Patricks Day!
+plot(NULL, xlim=c(-1,1), ylim=c(-2,1), axes=FALSE, asp=1, xlab="", ylab="")
+x <- seq(from=-2, to=0, by=0.1)
+y <- -(1/8) * x^2 - 0.01
+points(-1*y,x,type="l", col="darkgreen", lwd=4)
+theta <- seq(from=0, to=2*pi, by=0.05)
+r <- sin(2*theta) + 0.25 * sin(6*theta)
+points(x = r * cos(theta), y = r * sin(theta), type="l", col="darkgreen", lwd=3)
+```
+
+<div class="indented1">
+&#9758; You can write code in a script to save and reuse it  
+&#9758; Execute code line-by-line by clicking the Run button or ctrl+enter  
+&#9758; Any line that starts with '#' is interpreted as a comment and ignored  
+</div>
+
+Let's make an interactive map using the `leaflet` package. Copy the following into a script and run it.
+
+```{r eval=FALSE}
+# Let's make an interactive map of a sample dataset of earthquakes 
+library(leaflet)
+m = leaflet(quakes) %>% addTiles() %>% addMarkers(~long, ~lat)
+m
+```
+
+<div class="indented1">
+&#9758; R comes with some sample datasets (like `quakes`)  
+&#9758; Before you can use an installed package, you have to load it into memory using `library()`
+&#9758; Learn more about leaflet from [RStudio](https://rstudio.github.io/leaflet/){target="_blank"} or this [UC Berkeley workshop](https://github.com/dlab-geo/r-leaflet-workshop){target="_blank"}.
+</div>
+
+
+## Plot some data
+
+```{r}
+y = rnorm(500)
+hist(y)
+hist(y, breaks=20, col="grey", main="Bell Curve")
+x = seq(from=0, to=4*pi, by=0.1)
+plot(x, cos(x))
+
+library(sp)
+library(rnaturalearth)
+plot(countries110)
+```
+
+<div class="indented1">
+&#9758; R has a number of basic, built-in plotting functions  
+&#9758; most plotting functions have optional arguments to cumtomize the look  
+&#9758; when you pass text to a function, you have to enclose it in quotes  
+&#9758; there are packages which provide more plotting options   
+</div>
+

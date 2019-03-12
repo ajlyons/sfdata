@@ -1,0 +1,39 @@
+---
+title: Showcase of Advanced Features
+output: 
+  slidy_presentation:
+    css: css/slidy_styles.css
+    df_print: default
+    duration: 0
+    font_adjustment: 2
+    footer: "Data Analysis and Visualization with R | <a href='https://ajlyons.github.io/sfdata/'>https://ajlyons.github.io/sfdata/</a>"
+    self_contained: no
+    lib_dir: lib
+    smart: no
+    includes:
+      in_header: header.html
+    increment: no
+---
+
+## R Markdown
+
+In RStudio,
+
+File &rarr; New File &rarr; R Markdown
+
+See also [R Markdown Gallery](https://rmarkdown.rstudio.com/gallery.html){target="_blank"}
+
+## Shiny Apps
+
+File &rarr; New File &rarr; R Markdown
+
+See also [R Shiny Gallery](https://shiny.rstudio.com/gallery/){target="_blank"}
+
+
+
+
+
+
+
+
+

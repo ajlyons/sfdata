@@ -1,0 +1,31 @@
+---
+title: Working with 2D and Spatial Data
+output: 
+  slidy_presentation:
+    css: css/slidy_styles.css
+    df_print: default
+    duration: 0
+    font_adjustment: 2
+    footer: "Data Analysis and Visualization with R | <a href='https://ajlyons.github.io/sfdata/'>https://ajlyons.github.io/sfdata/</a>"
+    self_contained: no
+    lib_dir: lib
+    smart: no
+    includes:
+      in_header: header.html
+    increment: no
+---
+
+# Two-dimensional data
+
+```{r}
+head(airquality)
+```
+
+
+
+
+
+Importing a csv
+
+
+
