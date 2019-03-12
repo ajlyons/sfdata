@@ -125,6 +125,12 @@ How would you represent each of the following?
 
 <div class="centerblock"><img src="images/projections_550x682.png"></img></div>
 
+<div class="centerblock" style="margin-top:2em;">
+<iframe src="http://www.jasondavies.com/maps/transition/" style="width:1234px;height:732px;">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+</div>
+
 # Importing Vector Data: rgdal
 
 <div class="indented1">
@@ -133,6 +139,7 @@ How would you represent each of the following?
 
 <div id="vqmbij" class="answer-code">
 ```{r}
+library(rgdal)
 rgdal::ogrDrivers()[,c(2,3,4)]
 ```
 </div>

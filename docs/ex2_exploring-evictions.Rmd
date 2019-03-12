@@ -1,5 +1,5 @@
 ---
-title: "Practice #1: Exploring R and RStudio"
+title: "Working with 2D and Spatial Data"
 date: Spatial Data Analysis and Visualization with R
 output: 
   html_document: 
