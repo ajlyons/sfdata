@@ -191,12 +191,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>Working with Files and Folders</h1>
 <p>Before importing or exporting data, you should set the working directory.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;C:/.../.../data)</span></code></pre></div>
-<p>Tip: You can also use the Session menu</p>
+<div class="tip">
+<p>You can also set the working directory in RStudio from the Session menu</p>
+</div>
 </div>
 <div id="importing-a-csv" class="slide section level1">
 <h1>Importing a csv</h1>
+<div class="tip">
 <p>RStudio has a 'import dataset' tool in the upper right pane.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">evict_df =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;Eviction_Notices.csv&quot;</span>)</code></pre></div>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">evict_df =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./data/Eviction_Notices.csv&quot;</span>)</code></pre></div>
 </div>
 <div id="spatial-data" class="slide section level1">
 <h1>Spatial Data</h1>
@@ -216,7 +220,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>Representing Geographic Data</h1>
 <p>How would you represent each of the following?</p>
 <div class="indented2">
-<ul class="incremental">
+<ul>
 <li>city, county, state boundaries</li>
 <li>air or ocean temperature</li>
 <li>crime locations</li>
@@ -235,12 +239,321 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <img src="images/projections_550x682.png"></img>
 </div>
 <div class="centerblock" style="margin-top:2em;">
-<iframe src="http://www.jasondavies.com/maps/transition/" style="width:1234px;height:732px;">
+<iframe src="https://www.jasondavies.com/maps/transition/" style="width:1234px;height:732px;">
 <p>
 Your browser does not support iframes.
 </p>
 </iframe>
 </div>
+</div>
+<div id="sp-package" class="slide section level1">
+<h1><code>sp</code> package</h1>
+<script type="text/javascript">w3c_slidy.mouse_click_enabled = false;</script>
+<h2 id="spatial-data-classes-from-the-sp-package">Spatial Data Classes from the <code>sp</code> package</h2>
+<div class="indented1">
+<p><strong>Vector data classes</strong></p>
+<p><code>SpatialPoints, SpatialPointsDataFrame</code></p>
+<p><code>SpatialLines, SpatialLinesDataFrame</code></p>
+<p><code>SpatialPolygons, SpatialPolygonsDataFrame</code></p>
+<p><strong>Raster classes</strong></p>
+<p><code>SpatialPixels</code></p>
+<p><code>SpatialGrid</code></p>
+</div>
+<div class="textbox">
+<p>To see all data classes that inherit from 'Spatial', run <code>getClass('Spatial')</code></p>
+</div>
+<h2 id="spatial-data-classes"><tt>Spatial*</tt> Data Classes</h2>
+<div class="indented2">
+<ul>
+<li>all sp* objects store <em>projection info</em></li>
+<li>it's relatively easy to <em>convert</em> data types within and between packages</li>
+<li>standard <em>data frame syntax</em> will often work with sp* objects</li>
+<li>many spatial analysis packages take sp* objects <em>directly</em> or have conversion functions</li>
+</ul>
+</div>
+<p><strong>SpatialPoints</strong></p>
+<div class="indented2">
+<div class="figure">
+<img src="images/spatialpoints_781x415.png" />
+
+</div>
+<div class="figure">
+<img src="images/spatialpointsdataframe_781x415.png" />
+
+</div>
+</div>
+<p><strong>Structure of Spatial* Objects</strong></p>
+<div class="indented2">
+<div class="figure">
+<img src="images/spatial-objects-data-structure_659x531.png" />
+
+</div>
+</div>
+</div>
+<div id="managing-projections" class="slide section level1">
+<h1>Managing Projections</h1>
+<h2 id="background">Background</h2>
+<div class="indented2">
+<ul>
+<li><strong>CRS</strong> (Coordinate Reference System) is the umbrella term for both projection systems and geographic (lat-long) coordinates.</li>
+<li>all of the data classes from the <code>sp</code> package store projection info</li>
+<li>all of the import functions from the <code>rgdal</code>, <code>raster</code>, and <code>maptools</code> packages read projection info</li>
+<li><code>CRS()</code> is used to specify the parameters of a project system, you can also 'lookup' a projection system using an id number</li>
+<li>when creating spatial objects from scratch, you don't have to specify a CRS (but its highly recommended, particularly if your spatial object is geospatial)</li>
+</ul>
+</div>
+<h2 id="specifying-projection-systems">Specifying Projection Systems</h2>
+<p>The <code>CRS()</code> function uses the <em>PROJ.4</em> library, which has at least three ways to specify a projections:</p>
+<div class="indented2">
+<ul>
+<li>specially formatted strings</li>
+<li>epsg numbers</li>
+<li>ESRI numbers</li>
+</ul>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sp)
+prj1 &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=utm +zone=17 +datum=WGS84&quot;</span>)
+prj2 &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:3358&quot;</span>)
+prj3 &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=ESRI:102719&quot;</span>)</code></pre></div>
+<p>The one-stop shop for finding proj4 strings and epsg/ESRI id numbers is <a href="http://www.spatialreference.org" class="uri" target="_blank">http://www.spatialreference.org</a>. (Google usually works also.</p>
+<h2 id="geographic-coordinates">Geographic Coordinates</h2>
+<p>Even though geographic coordinates (latitude-longitude) are not projected, it is still a coordinate reference system.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## The following are equivalent
+latlong1_crs &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=longlat +datum=WGS84&quot;</span>)
+latlong2_crs &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:4326&quot;</span>)</code></pre></div>
+<h2 id="utm">UTM</h2>
+<p><a href="https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system" target="_blank">Universal Transverse Mercator</a> is a popular projection system that like all conformal Mercator projections preserves angles. It divides the world into <a href="https://en.wikipedia.org/wiki/File:Utm-zones-USA.svg" target="_blank">36 zones</a> of 6 degrees each, so you need to know which zone your areas falls in. Areas below the equator can also be flagged with <code>+south</code> which will add an offset so y values are positive. It works well for areas the size of a county or smaller. Units are meters.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sp)
+utm10n &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=utm +zone=10 +datum=WGS84&quot;</span>)</code></pre></div>
+<h2 id="web-mercator">Web Mercator</h2>
+<p>Another common projection system is <a href="http://spatialreference.org/ref/sr-org/epsg3857-wgs84-web-mercator-auxiliary-sphere/" target="_blank">Web Mercator</a>. Web Mercator is used by many popular mapping platforms, such as Google Maps, Bing, and Open Street Map. Web mapping packages such as <tt>leaflet</tt> and <tt>ggmap</tt> will typically project lat-long data into WebMercator on the fly, but if you ever need to project data into Web Mercator its EPSG number is 3857.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">webmercator_crs &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+init=epsg:3857&quot;</span>)</code></pre></div>
+<p>For more info, see: <a href="https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf" target="_blank">Coordinate Reference Systems in R</a> (cheat sheet)</p>
+</div>
+<div id="reading-projection-info-when-importing" class="slide section level1">
+<h1>Reading Projection Info When Importing</h1>
+<p>The majority of spatial data file formats save the projection information as part of the file(s). As we saw last time, this includes Shapefiles that we can import using the <tt>rgdal</tt> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rgdal)
+ca_counties &lt;-<span class="st"> </span><span class="kw">readOGR</span>(<span class="dt">dsn=</span><span class="st">&quot;./data&quot;</span>, <span class="dt">layer=</span><span class="st">&quot;ca_counties_census&quot;</span>, <span class="dt">verbose=</span><span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## Warning in readOGR(dsn = &quot;./data&quot;, layer = &quot;ca_counties_census&quot;, verbose =
+## FALSE): Z-dimension discarded</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ca_counties, <span class="dt">axes=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="pres2_2d-spatial-data_files/figure-slidy/import_shp_prj_info-1.png" width="768" /></p>
+</div>
+<div id="getting-or-setting-the-crs" class="slide section level1">
+<h1>Getting or Setting the CRS</h1>
+<p>All data classes from the <em>sp</em> and <em>raster</em> packages have a <code>proj4string</code> slot</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ca_counties<span class="op">@</span>proj4string</code></pre></div>
+<pre><code>## CRS arguments:
+##  +proj=aea +lat_1=34 +lat_2=40.5 +lat_0=0 +lon_0=-120 +x_0=0
+## +y_0=-4000000 +datum=NAD83 +units=m +no_defs +ellps=GRS80
+## +towgs84=0,0,0</code></pre>
+<div style="margin-left:3em;border:1px solid grey;">
+<p><em>Challenge question</em>: What projection system is this? [<span id="qtn_hismynn" class="showhide" style="cursor: pointer; color:blue;" onclick="showHide(&#39;hismynn&#39;);return false;">Ans</span>].</p>
+<div id="hismynn" class="answer-code">
+<p>This is <a href="http://www.spatialreference.org/ref/sr-org/10/" target="_blank">California Teale Albers NAD83</a> (if you figured that out you're truly a geo-geek).</p>
+</div>
+</div>
+<p>You can also get or set the CRS info using the <code>proj4string()</code> function</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">proj4string</span>(ca_counties)</code></pre></div>
+<pre><code>## [1] &quot;+proj=aea +lat_1=34 +lat_2=40.5 +lat_0=0 +lon_0=-120 +x_0=0 +y_0=-4000000 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0&quot;</code></pre>
+<p>Both of these methods can be used to read or write the CRS info, However this only telling R how your data are saved, it is <em>not</em> actually projecting anything (that's next!)</p>
+<h2 id="reprojecting-data">(Re)projecting data</h2>
+<div class="indented2">
+<ul>
+<li>R does not do on-the-fly projecting. To overlay or fuse spatial data, all layers need to be in same CRS</li>
+<li><code>spTransform()</code> is your go-to function for projecting and transforming</li>
+</ul>
+</div>
+<p>Let's 'unproject' the CA Counties back to geographic coordinates.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">latlong_crs &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=longlat +datum=WGS84&quot;</span>)
+ca_counties_ll &lt;-<span class="st"> </span><span class="kw">spTransform</span>(ca_counties, latlong_crs)
+<span class="kw">plot</span>(ca_counties_ll, <span class="dt">axes=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="pres2_2d-spatial-data_files/figure-slidy/ca_counties_ll-1.png" width="768" /></p>
+</div>
+<div id="creating-new-spatial-objects" class="slide section level1">
+<h1>Creating New Spatial objects</h1>
+<h2 id="spatialpoints">SpatialPoints</h2>
+<p>We can create a <em>SpatialPoints</em> object by passing a two-column data frame or matrix containing the <em>x</em> and <em>y</em> coordinates to the <code>SpatialPoints()</code> function.</p>
+<p>To illustrate, let's grab the <em>us.cities</em> data frame (cities with pop &gt; 40k), which is bundled with the <code>maps</code> package. Next we'll extract just the cities in California.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(maps)
+<span class="kw">head</span>(us.cities)</code></pre></div>
+<pre><code>##         name country.etc    pop   lat    long capital
+## 1 Abilene TX          TX 113888 32.45  -99.74       0
+## 2   Akron OH          OH 206634 41.08  -81.52       0
+## 3 Alameda CA          CA  70069 37.77 -122.26       0
+## 4  Albany GA          GA  75510 31.58  -84.18       0
+## 5  Albany NY          NY  93576 42.67  -73.80       2
+## 6  Albany OR          OR  45535 44.62 -123.09       0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ca_citiesDF &lt;-<span class="st"> </span>us.cities[us.cities<span class="op">$</span>country.etc<span class="op">==</span><span class="st">&quot;CA&quot;</span>, ]
+<span class="kw">nrow</span>(ca_citiesDF)</code></pre></div>
+<pre><code>## [1] 208</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ca_citiesDF)</code></pre></div>
+<pre><code>##              name country.etc    pop   lat    long capital
+## 3      Alameda CA          CA  70069 37.77 -122.26       0
+## 10    Alhambra CA          CA  88857 34.08 -118.13       0
+## 11 Aliso Viejo CA          CA  41975 33.57 -117.73       0
+## 15    Altadena CA          CA  43280 34.19 -118.13       0
+## 20     Anaheim CA          CA 334909 33.84 -117.87       0
+## 27     Antioch CA          CA 109485 37.99 -121.80       0</code></pre>
+<p>To turn these into a <em>SpatialPoints</em> object, we need to pass just the columns containing the x and y coordinates to the <code>SpatialPoints()</code> function. In this case, the <em>long</em> column contains the x-coordinates, and the <em>lat</em> column contains the y-coordinates.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ca_citiesSP &lt;-<span class="st"> </span><span class="kw">SpatialPoints</span>(ca_citiesDF[ , <span class="kw">c</span>(<span class="st">&quot;long&quot;</span>, <span class="st">&quot;lat&quot;</span>)])
+<span class="kw">summary</span>(ca_citiesSP)</code></pre></div>
+<pre><code>## Object of class SpatialPoints
+## Coordinates:
+##          min     max
+## long -122.70 -116.23
+## lat    32.63   40.57
+## Is projected: NA 
+## proj4string : [NA]
+## Number of points: 208</code></pre>
+<p>Note the proj4string is missing. Let's tell R what CRS these points are in before we do anything else.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">proj4string</span>(ca_citiesSP) &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=longlat +datum=WGS84&quot;</span>)</code></pre></div>
+<p>Now we can plot them on top of the counties.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ca_counties_ll, <span class="dt">asp=</span><span class="dv">1</span>, <span class="dt">axes=</span>T)
+<span class="kw">plot</span>(ca_citiesSP, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="pres2_2d-spatial-data_files/figure-slidy/calcities_plot-1.png" width="768" /></p>
+<h2 id="spatialpointsdataframe">SpatialPointsDataFrame</h2>
+<p>If we want to retain the attribute table (e.g., the name and population of every city), we need to create a SpatialPoints<span style="font-weight:bold;">DataFrame</span>. <code>SpatialPointsDataFrame()</code> is pretty similar to its shorter cousin, but also wants you to pass an argument called <em>data</em> with the attribute table (data frame). While we're at it, we can also pass the <em>proj4string</em> argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ca_citiesSPDF &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(<span class="dt">coords=</span>ca_citiesDF[,<span class="kw">c</span>(<span class="st">&quot;long&quot;</span>,<span class="st">&quot;lat&quot;</span>)], <span class="dt">data=</span>ca_citiesDF, <span class="dt">proj4string =</span> <span class="kw">CRS</span>(<span class="st">&quot;+proj=longlat +datum=WGS84&quot;</span>))
+<span class="kw">summary</span>(ca_citiesSPDF)</code></pre></div>
+<pre><code>## Object of class SpatialPointsDataFrame
+## Coordinates:
+##          min     max
+## long -122.70 -116.23
+## lat    32.63   40.57
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0]
+## Number of points: 208
+## Data attributes:
+##      name           country.etc             pop               lat       
+##  Length:208         Length:208         Min.   :  39523   Min.   :32.63  
+##  Class :character   Class :character   1st Qu.:  53532   1st Qu.:33.89  
+##  Mode  :character   Mode  :character   Median :  72444   Median :34.13  
+##                                        Mean   : 128506   Mean   :35.43  
+##                                        3rd Qu.: 110156   3rd Qu.:37.64  
+##                                        Max.   :3911500   Max.   :40.57  
+##       long           capital        
+##  Min.   :-122.7   Min.   :0.000000  
+##  1st Qu.:-121.5   1st Qu.:0.000000  
+##  Median :-118.2   Median :0.000000  
+##  Mean   :-119.3   Mean   :0.009615  
+##  3rd Qu.:-117.8   3rd Qu.:0.000000  
+##  Max.   :-116.2   Max.   :2.000000</code></pre>
+<p>Now that we have attributes, we can color the points by population size. First we'll put the population values into 10 'bins' using the <code>cut()</code> function, and then use the bin numbers to assign a color.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pop_deciles &lt;-<span class="st"> </span><span class="kw">quantile</span>(ca_citiesSPDF<span class="op">@</span>data<span class="op">$</span>pop, <span class="dt">probs =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">10</span><span class="op">/</span><span class="dv">10</span>)
+pop_bin_factor &lt;-<span class="st"> </span><span class="kw">cut</span>(ca_citiesSPDF<span class="op">@</span>data<span class="op">$</span>pop, <span class="dt">breaks=</span>pop_deciles)
+pop_bin_num &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(pop_bin_factor)
+<span class="kw">table</span>(pop_bin_num)</code></pre></div>
+<pre><code>## pop_bin_num
+##  1  2  3  4  5  6  7  8  9 10 
+## 20 21 21 20 21 21 20 21 21 21</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ca_counties_ll, <span class="dt">asp=</span><span class="dv">1</span>, <span class="dt">axes=</span>T)
+<span class="kw">plot</span>(ca_citiesSPDF, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="dv">1</span>, <span class="dt">col=</span><span class="kw">topo.colors</span>(<span class="dv">10</span>)[pop_bin_num])</code></pre></div>
+<p><img src="pres2_2d-spatial-data_files/figure-slidy/calcitiespop_plot-1.png" width="768" /></p>
+</div>
+<div id="attribute-queries" class="slide section level1">
+<h1>Attribute Queries</h1>
+<p>Spatial*DataFrame objects are designed to work as similarly as possible as regular data frames. This means you can reference columns the way you always do, use the [rows,cols] syntax to pull out selected rows, append two SPDF objects together using the <code>rbind()</code> function, get the number of rows with <code>nrow()</code>, etc.</p>
+<p>The attached data frame is saved in the <code>data</code> slot, so you grab it using the <tt>@</tt> operator, as in:</p>
+<p>my_spatial_object<span style="font-weight:bold;"><span class="citation">@data</span></span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Look at the names of the columns
+<span class="kw">names</span>(ca_counties_ll<span class="op">@</span>data)</code></pre></div>
+<pre><code>##  [1] &quot;STATEFP&quot;    &quot;COUNTYFP&quot;   &quot;LSAD&quot;       &quot;ALAND&quot;      &quot;AWATER&quot;    
+##  [6] &quot;CountyFIPS&quot; &quot;CountyNAME&quot; &quot;POP2010&quot;    &quot;POP2011&quot;    &quot;POP2012&quot;   
+## [11] &quot;POP2013&quot;    &quot;POP2014&quot;    &quot;SQMI&quot;</code></pre>
+<p>Let's pull out one county and plot it. To perform an attribute query, you need to know the range of values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ca_counties_ll<span class="op">@</span>data<span class="op">$</span>CountyNAME</code></pre></div>
+<pre><code>##  [1] Stanislaus County      San Francisco County   Amador County         
+##  [4] San Bernardino County  Sierra County          Siskiyou County       
+##  [7] Plumas County          San Luis Obispo County Modoc County          
+## [10] Colusa County          Contra Costa County    Ventura County        
+## [13] Orange County          Yolo County            Fresno County         
+## [16] Lake County            Nevada County          Los Angeles County    
+## [19] Monterey County        Sutter County          Kern County           
+## [22] San Diego County       Mono County            San Benito County     
+## [25] Imperial County        Lassen County          Placer County         
+## [28] Shasta County          Riverside County       Sacramento County     
+## [31] Santa Barbara County   San Mateo County       Santa Cruz County     
+## [34] Santa Clara County     Solano County          San Joaquin County    
+## [37] Alameda County         Tuolumne County        Glenn County          
+## [40] Humboldt County        Merced County          Tehama County         
+## [43] Mendocino County       Sonoma County          Mariposa County       
+## [46] Tulare County          Marin County           Trinity County        
+## [49] Alpine County          Kings County           Inyo County           
+## [52] Calaveras County       Madera County          El Dorado County      
+## [55] Butte County           Napa County            Yuba County           
+## [58] Del Norte County      
+## 58 Levels: Alameda County Alpine County Amador County ... Yuba County</code></pre>
+<p>To grab just one county, we can use [square bracket notation] with an expression in the <em>rows</em> position.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sanMateoCtyLL &lt;-<span class="st"> </span>ca_counties_ll[ca_counties_ll<span class="op">@</span>data<span class="op">$</span>CountyNAME<span class="op">==</span><span class="st">&quot;San Mateo County&quot;</span>,]
+
+<span class="kw">summary</span>(sanMateoCtyLL)</code></pre></div>
+<pre><code>## Object of class SpatialPolygonsDataFrame
+## Coordinates:
+##          min        max
+## x -122.52085 -122.10871
+## y   37.10732   37.70843
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0]
+## Data attributes:
+##  STATEFP    COUNTYFP LSAD           ALAND         AWATER    CountyFIPS
+##  06:1    081    :1   22:1   1161506629 :1   757561040:1   06081  :1   
+##          001    :0          10140841147:0   104154637:0   06001  :0   
+##          003    :0          10510365728:0   105325735:0   06003  :0   
+##          005    :0          10817387422:0   112770970:0   06005  :0   
+##          007    :0          10895213672:0   119060126:0   06007  :0   
+##          009    :0          1152967527 :0   123929658:0   06009  :0   
+##          (Other):0          (Other)    :0   (Other)  :0   (Other):0   
+##             CountyNAME    POP2010     POP2011     POP2012      POP2013 
+##  San Mateo County:1    719951 :1   729425 :1   740738 :1   750489  :1  
+##  Alameda County  :0    1052894:0   1066587:0   1079358:0   10053995:0  
+##  Alpine County   :0    1158   :0   1111   :0   1127   :0   1095980 :0  
+##  Amador County   :0    135022 :0   135250 :0   134680 :0   1150    :0  
+##  Butte County    :0    136829 :0   13712  :0   13495  :0   13444   :0  
+##  Calaveras County:0    13755  :0   138056 :0   139135 :0   134620  :0  
+##  (Other)         :0    (Other):0   (Other):0   (Other):0   (Other) :0  
+##      POP2014       SQMI      
+##  758581  :1   Min.   :448.5  
+##  10116705:0   1st Qu.:448.5  
+##  1111339 :0   Median :448.5  
+##  1116    :0   Mean   :448.5  
+##  13170   :0   3rd Qu.:448.5  
+##  134809  :0   Max.   :448.5  
+##  (Other) :0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(sanMateoCtyLL, <span class="dt">axes=</span><span class="ot">TRUE</span>, <span class="dt">asp=</span><span class="dv">1</span>, <span class="dt">main=</span><span class="st">&quot;San Mateo&quot;</span>, <span class="dt">col=</span><span class="kw">gray</span>(<span class="fl">0.8</span>))</code></pre></div>
+<p><img src="pres2_2d-spatial-data_files/figure-slidy/unnamed-chunk-6-1.png" width="768" /></p>
+<p>With a similar technique, we can randomly select five counties:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idx &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(ca_counties<span class="op">@</span>data), <span class="dt">size=</span><span class="dv">5</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)
+idx</code></pre></div>
+<pre><code>## [1]  1 15 41 55 34</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ca_counties, <span class="dt">axes=</span><span class="ot">TRUE</span>, <span class="dt">asp=</span><span class="dv">1</span>)
+<span class="kw">plot</span>(ca_counties[idx,], <span class="dt">col=</span><span class="kw">palette</span>(), <span class="dt">add=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="pres2_2d-spatial-data_files/figure-slidy/rand_cty-1.png" width="768" /></p>
+</div>
+<div id="getting-the-coordinates" class="slide section level1">
+<h1>Getting the Coordinates</h1>
+<p>Sometimes you need to get the coordinates of the features in a SpatialPoints object 'back' as a simple matrix, so you can do something else with them (such as compute distances). The <em>sp</em> package has a function <tt>coordinates()</tt> which does exactly this.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">coordinates</span>(ca_citiesSP)
+<span class="kw">head</span>(x)</code></pre></div>
+<pre><code>##       long   lat
+## 3  -122.26 37.77
+## 10 -118.13 34.08
+## 11 -117.73 33.57
+## 15 -118.13 34.19
+## 20 -117.87 33.84
+## 27 -121.80 37.99</code></pre>
+</div>
+<div id="getting-rid-of-the-data-frame" class="slide section level1">
+<h1>Getting Rid of the Data Frame</h1>
+<p>There are times when you want to get rid of the data frame, in otherwords convert a <em>SpatialPointsDataFrame</em> object into a simply <em>SpatialPoints</em> object. The <tt>geometry()</tt> function will do this for you. It will also work on <em>SpatialLines*</em> and <em>SpatialPolygons*</em> objects.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">geometry</span>(ca_citiesSPDF)
+<span class="kw">class</span>(x)</code></pre></div>
+<pre><code>## [1] &quot;SpatialPoints&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;sp&quot;</code></pre>
 </div>
 <div id="importing-vector-data-rgdal" class="slide section level1">
 <h1>Importing Vector Data: rgdal</h1>
@@ -251,17 +564,8 @@ Your browser does not support iframes.
 <li>It provides drivers for a wide range of vector and raster data formats. [<a id="qtn_vqmbij" href="#" class="showhideplain" onclick="showHide('vqmbij');return false;">See all</a>]</li>
 </ul>
 <div id="vqmbij" class="answer-code">
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rgdal)</code></pre></div>
-<pre><code>## Loading required package: sp</code></pre>
-<pre><code>## rgdal: version: 1.3-6, (SVN revision 773)
-##  Geospatial Data Abstraction Library extensions to R successfully loaded
-##  Loaded GDAL runtime: GDAL 2.2.3, released 2017/11/20
-##  Path to GDAL shared files: C:/Users/Andy/Documents/R/win-library/3.5/rgdal/gdal
-##  GDAL binary built with GEOS: TRUE 
-##  Loaded PROJ.4 runtime: Rel. 4.9.3, 15 August 2016, [PJ_VERSION: 493]
-##  Path to PROJ.4 shared files: C:/Users/Andy/Documents/R/win-library/3.5/rgdal/proj
-##  Linking to sp version: 1.3-1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rgdal<span class="op">::</span><span class="kw">ogrDrivers</span>()[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rgdal)
+rgdal<span class="op">::</span><span class="kw">ogrDrivers</span>()[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)]</code></pre></div>
 <pre><code>##                                                      long_name write  copy
 ## 1                                                  Aeronav FAA FALSE FALSE
 ## 2                                                   AmigoCloud  TRUE FALSE
@@ -346,6 +650,130 @@ Your browser does not support iframes.
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sp)
 <span class="kw">library</span>(rgdal)</code></pre></div>
+<h2 id="import-shapefiles">Import Shapefiles</h2>
+<p>View layers in a directory:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rgdal)
+rgdal<span class="op">::</span><span class="kw">ogrListLayers</span>(dsn)</code></pre></div>
+<p>Where <em>dsn</em> is a directory.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rgdal<span class="op">::</span><span class="kw">ogrListLayers</span>(<span class="st">&quot;./data&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;ca_counties_census&quot;
+## attr(,&quot;driver&quot;)
+## [1] &quot;ESRI Shapefile&quot;
+## attr(,&quot;nlayers&quot;)
+## [1] 1</code></pre>
+<p>View metadata before importing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rgdal<span class="op">::</span><span class="kw">ogrInfo</span>(dsn, shape_file_name)</code></pre></div>
+<p>where <em>shape_file_name</em> is the name of the directory, minus the <em>.shp</em> extension</p>
+<p>To import, use <code>readOGR()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ca_counties_alb &lt;-<span class="st"> </span>rgdal<span class="op">::</span><span class="kw">readOGR</span>(<span class="st">&quot;./data&quot;</span>, <span class="st">&quot;ca_counties_census&quot;</span>)</code></pre></div>
+<pre><code>## OGR data source with driver: ESRI Shapefile 
+## Source: &quot;C:\Workshops\R-Spatial\SFOpenData\sfdata\docs\data&quot;, layer: &quot;ca_counties_census&quot;
+## with 58 features
+## It has 13 fields
+## Integer64 fields read as strings:  ALAND AWATER POP2010 POP2011 POP2012 POP2013 POP2014</code></pre>
+<pre><code>## Warning in rgdal::readOGR(&quot;./data&quot;, &quot;ca_counties_census&quot;): Z-dimension
+## discarded</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ca_counties_alb)</code></pre></div>
+<pre><code>## Object of class SpatialPolygonsDataFrame
+## Coordinates:
+##         min      max
+## x -373976.1 540037.5
+## y -604512.6 450022.5
+## Is projected: TRUE 
+## proj4string :
+## [+proj=aea +lat_1=34 +lat_2=40.5 +lat_0=0 +lon_0=-120 +x_0=0
+## +y_0=-4000000 +datum=NAD83 +units=m +no_defs +ellps=GRS80
+## +towgs84=0,0,0]
+## Data attributes:
+##  STATEFP    COUNTYFP  LSAD            ALAND           AWATER  
+##  06:58   001    : 1   22:58   10140841147: 1   104154637 : 1  
+##          003    : 1           10510365728: 1   105325735 : 1  
+##          005    : 1           10817387422: 1   112770970 : 1  
+##          007    : 1           10895213672: 1   119060126 : 1  
+##          009    : 1           1152967527 : 1   123929658 : 1  
+##          011    : 1           1161506629 : 1   1254256517: 1  
+##          (Other):52           (Other)    :52   (Other)   :52  
+##    CountyFIPS            CountyNAME    POP2010      POP2011      POP2012  
+##  06001  : 1   Alameda County  : 1   1052894: 1   1066587: 1   1079358: 1  
+##  06003  : 1   Alpine County   : 1   1158   : 1   1111   : 1   1127   : 1  
+##  06005  : 1   Amador County   : 1   135022 : 1   135250 : 1   134680 : 1  
+##  06007  : 1   Butte County    : 1   136829 : 1   13712  : 1   13495  : 1  
+##  06009  : 1   Calaveras County: 1   13755  : 1   138056 : 1   139135 : 1  
+##  06011  : 1   Colusa County   : 1   1421838: 1   1435601: 1   14306  : 1  
+##  (Other):52   (Other)         :52   (Other):52   (Other):52   (Other):52  
+##      POP2013       POP2014        SQMI         
+##  10053995: 1   10116705: 1   Min.   :   46.89  
+##  1095980 : 1   1111339 : 1   1st Qu.:  959.57  
+##  1150    : 1   1116    : 1   Median : 1535.18  
+##  13444   : 1   13170   : 1   Mean   : 2685.97  
+##  134620  : 1   134809  : 1   3rd Qu.: 3454.45  
+##  14016   : 1   13997   : 1   Max.   :20057.04  
+##  (Other) :52   (Other) :52</code></pre>
+<h2 id="import-a-kml">Import a KML</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kml_fn &lt;-<span class="st"> &quot;./data/berkeley_public_sites.kml&quot;</span>
+<span class="kw">file.exists</span>(kml_fn)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rgdal<span class="op">::</span><span class="kw">ogrListLayers</span>(kml_fn)</code></pre></div>
+<pre><code>## [1] &quot;Public Facilities&quot;
+## attr(,&quot;driver&quot;)
+## [1] &quot;KML&quot;
+## attr(,&quot;nlayers&quot;)
+## [1] 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">brk_sites &lt;-<span class="st"> </span>rgdal<span class="op">::</span><span class="kw">readOGR</span>(kml_fn, <span class="st">&quot;Public Facilities&quot;</span>)</code></pre></div>
+<pre><code>## OGR data source with driver: KML 
+## Source: &quot;C:\Workshops\R-Spatial\SFOpenData\sfdata\docs\data\berkeley_public_sites.kml&quot;, layer: &quot;Public Facilities&quot;
+## with 47 features
+## It has 2 fields</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(brk_sites)</code></pre></div>
+<pre><code>## Object of class SpatialPointsDataFrame
+## Coordinates:
+##                  min        max
+## coords.x1 -122.29471 -122.24275
+## coords.x2   37.85132   37.90184
+## coords.x3    0.00000    0.00000
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0]
+## Number of points: 47
+## Data attributes:
+##                                     Name    Description
+##  Alta Bates Medical Center            : 1   :47        
+##  Berkeley City Hall                   : 1              
+##  Berkeley High School                 : 1              
+##  Berkeley Public Library              : 1              
+##  Berkeley Seventh Day Adventist Church: 1              
+##  Burbank Junior High School           : 1              
+##  (Other)                              :41</code></pre>
+<h2 id="import-from-a-geodatabase">Import from a Geodatabase</h2>
+<p>rgdal can import from a file geodatabase also. In this case, the source is the name of a directory.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gdb_dir &lt;-<span class="st"> &quot;./data/sf_crime.gdb&quot;</span>
+<span class="kw">file.exists</span>(gdb_dir)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sfcrime_sp &lt;-<span class="st"> </span>rgdal<span class="op">::</span><span class="kw">readOGR</span>(<span class="dt">dsn=</span>gdb_dir,<span class="dt">layer=</span><span class="st">&quot;San_Francisco_Crimes&quot;</span>)</code></pre></div>
+<pre><code>## OGR data source with driver: OpenFileGDB 
+## Source: &quot;C:\Workshops\R-Spatial\SFOpenData\sfdata\docs\data\sf_crime.gdb&quot;, layer: &quot;San_Francisco_Crimes&quot;
+## with 74760 features
+## It has 10 fields</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(sfcrime_sp)</code></pre></div>
+<pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;sp&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(sfcrime_sp<span class="op">@</span>data)</code></pre></div>
+<pre><code>##  [1] &quot;Field1&quot;     &quot;Dates&quot;      &quot;Category&quot;   &quot;Descript&quot;   &quot;DayOfWeek&quot; 
+##  [6] &quot;PdDistrict&quot; &quot;Resolution&quot; &quot;Address&quot;    &quot;X&quot;          &quot;Y&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(sfcrime_sp, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.4</span>, <span class="dt">axes=</span>T, <span class="dt">asp=</span><span class="dv">1</span>)</code></pre></div>
+<p><img src="pres2_2d-spatial-data_files/figure-slidy/plot_sfcrimes-1.png" width="768" style="display: block; margin: auto;" /></p>
+<h2 id="exporting">Exporting</h2>
+<p>To determine if you can <em>export</em> as well as import a specific file format, look at the OGR driver info by running <tt>ogrDrivers()</tt>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">subset</span>(<span class="kw">ogrDrivers</span>(), <span class="kw">grepl</span>(<span class="st">&quot;ESRI&quot;</span>, name))</code></pre></div>
+<pre><code>##              name      long_name write  copy isVector
+## 17 ESRI Shapefile ESRI Shapefile  TRUE FALSE     TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">subset</span>(<span class="kw">ogrDrivers</span>(), <span class="kw">grepl</span>(<span class="st">&quot;KML&quot;</span>, name))</code></pre></div>
+<pre><code>##    name                     long_name write  copy isVector
+## 34  KML Keyhole Markup Language (KML)  TRUE FALSE     TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">subset</span>(<span class="kw">ogrDrivers</span>(), <span class="kw">grepl</span>(<span class="st">&quot;GDB&quot;</span>, name))</code></pre></div>
+<pre><code>##           name    long_name write  copy isVector
+## 47 OpenFileGDB ESRI FileGDB FALSE FALSE     TRUE</code></pre>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->
