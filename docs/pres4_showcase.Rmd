@@ -15,7 +15,7 @@ output:
     increment: no
 ---
 
-## R Markdown
+# R Markdown
 
 In RStudio,
 
@@ -23,11 +23,17 @@ File &rarr; New File &rarr; R Markdown
 
 See also: [R Markdown Gallery](https://rmarkdown.rstudio.com/gallery.html){target="_blank"}
 
-## Shiny Apps
+# Shiny Apps
 
 File &rarr; New File &rarr; R Markdown
 
 See also: [R Shiny Gallery](https://shiny.rstudio.com/gallery/){target="_blank"}
+
+# R-ArcGIS Bridge
+
+![](images/r-arcgis_bridge_620x149.png)
+
+Vignette: https://r-arcgis.github.io/assets/arcgisbinding-vignette.html
 
 
 
